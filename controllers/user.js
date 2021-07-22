@@ -57,22 +57,52 @@ userController.post('/register', async(req, res) => {
 }) 
 
 
-userController.post('/login', async(req, res) => {
-    let { username, password } = req.body;
+// userController.post('/login', async(req, res) => {
+//     let { username, password } = req.body;
      
+//     try {
+//         let loggingIn = await UserModel.findOne({
+//             where:{ 
+//                 username
+//             }
+//         })
+//         if(loggingIn && await bcrypt.compare(password, loggingIn.password)) {
+//             const token = jwt.sign({ id: loggingIn.id }, process.env.JWT_SECRET)
+//             res.status(200).json({
+//                 message: 'login success',
+//                 token
+//             })
+//         }  else {
+//             res.status(401).json({
+//                 message: 'login failed'
+//             })
+//         }
+//     } catch (e) {
+//         res.status(500).json({
+//             message: 'error logging in'
+//         })
+//     }
+// })
+
+
+
+
+userController.post('/login', async (req, res) => {
+    let { username, password } = req.body;
     try {
         let loggingIn = await UserModel.findOne({
-            where:{ 
-                username: username
+            where: {
+                username
             }
         })
-        if(loggingIn && await bcrypt.compare(password, loggingIn.password)) {
-            const token = jwt.sign({ id: loggingIn.id }, process.env.JWT_SECRET)
-            res.status(200).json({
-                message: 'login success',
-                token
-            })
-        }  else {
+
+        if( loggingIn && await bcrypt.compare(password, loggingIn.password)) {
+            const token = jwt.sign({ id: loggingIn.id }, process.env.JWT_SECRET);
+                    res.status(200).json({
+                        message: 'login success',
+                        token
+                    })
+        } else {
             res.status(401).json({
                 message: 'login failed'
             })
@@ -83,6 +113,7 @@ userController.post('/login', async(req, res) => {
         })
     }
 })
+
 
 
 module.exports = userController

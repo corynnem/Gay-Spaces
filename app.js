@@ -3,9 +3,16 @@ const Express = require('express')
 const db = require('./db')
 const app = Express();
 
+const { cors, validate } = require('./middlewares')
+
+
+const { user } = require('./controllers')
+
 //Taylor
 app.use(Express.json())
-app.use(cors)
+
+app.use('/user', user)
+
 
 //base endpoint
 app.get('/test', (req, res) => {

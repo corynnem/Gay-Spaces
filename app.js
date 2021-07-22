@@ -11,8 +11,10 @@ const { user } = require('./controllers')
 //Taylor
 app.use(Express.json())
 
+app.use(cors)
 app.use('/user', user)
 
+app.use(validate)
 
 //base endpoint
 app.get('/test', (req, res) => {

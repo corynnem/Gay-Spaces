@@ -62,10 +62,16 @@ userController.post('/login', async(req, res) => {
      
     try {
         let loggingIn = await UserModel.findOne({
-            where: username
+            where:{ 
+                username: username
+            }
         })
         if(loggingIn && await bcrypt.compare(password, loggingIn.password)) {
             const token = jwt.sign({ id: loggingIn.id }, process.env.JWT_SECRET)
+            res.status(200).json({
+                message: 'login success',
+                token
+            })
         }  else {
             res.status(401).json({
                 message: 'login failed'
